@@ -80,6 +80,7 @@ public class Categories extends AppCompatActivity {
         food.add("Super Buffer");
         food.add("The Keg");
         food.add("Tim Hortons");
+        food.add("Popeyes");
 
         List<String> recreation = new ArrayList<String>();
         recreation.add("Centennial Recreation Centre - Scarborough");
