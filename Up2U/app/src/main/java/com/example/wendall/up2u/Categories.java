@@ -1,7 +1,9 @@
 package com.example.wendall.up2u;
 
+import android.app.ExpandableListActivity;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.reflect.Array;
@@ -28,6 +31,7 @@ public class Categories extends AppCompatActivity {
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
+   // final Intent detailsIntent = new Intent(this, Details.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,51 @@ public class Categories extends AppCompatActivity {
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
+
+        expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+
+                Toast.makeText(Categories.this, "Clicked On Child"+childPosition,
+                        Toast.LENGTH_SHORT).show();
+                Intent detailsIntent = new Intent(Categories.this, Details.class);
+                //listAdapter
+                switch(groupPosition) {
+                    case 0:
+                        switch (childPosition) {
+                            case 0:
+                                startActivity(detailsIntent);
+                                break;
+                            case 1:
+                                startActivity(detailsIntent);
+                                break;
+                            case 2:
+                                startActivity(detailsIntent);
+                                break;
+                        }break;
+                    case 1:
+                        switch (childPosition){
+                            case 0:
+                                startActivity(detailsIntent);
+                                break;
+                            case 1:
+                                startActivity(detailsIntent);
+                                break;
+                            case 2:
+                                startActivity(detailsIntent);
+                                break;
+                            case 3:
+                                startActivity(detailsIntent);
+                                break;
+                        }
+                    break;
+                }
+
+
+                return false;
+            }
+        });
+
     }
 
     /*
@@ -149,7 +198,20 @@ public class Categories extends AppCompatActivity {
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                                              @Override
+                                              public boolean onQueryTextSubmit(String query) {
+                                                  Intent searchIntent = new Intent(Categories.this, SearchResults.class);
+                                                  startActivity(searchIntent);
+                                                  return false;
+                                              }
 
+                                              @Override
+                                              public boolean onQueryTextChange(String newText) {
+                                                  return false;
+                                              }
+                                          }
+        );
         return true;
     }
 
