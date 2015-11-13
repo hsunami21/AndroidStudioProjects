@@ -213,15 +213,6 @@ public class Categories extends AppCompatActivity {
             }
         });
 
-        MenuItem home = menu.findItem(R.id.home);
-        home.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Intent homeIntent = new Intent(Categories.this, Home.class);
-                startActivity(homeIntent);
-                return false;
-            }
-        });
         return true;
     }
 
