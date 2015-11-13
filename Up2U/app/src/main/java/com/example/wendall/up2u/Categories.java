@@ -55,11 +55,11 @@ public class Categories extends AppCompatActivity {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
-                Toast.makeText(Categories.this, "Clicked On Child"+childPosition,
+                Toast.makeText(Categories.this, "Clicked On Child" + childPosition,
                         Toast.LENGTH_SHORT).show();
                 Intent detailsIntent = new Intent(Categories.this, Details.class);
                 //listAdapter
-                switch(groupPosition) {
+                switch (groupPosition) {
                     case 0:
                         switch (childPosition) {
                             case 0:
@@ -71,9 +71,10 @@ public class Categories extends AppCompatActivity {
                             case 2:
                                 startActivity(detailsIntent);
                                 break;
-                        }break;
+                        }
+                        break;
                     case 1:
-                        switch (childPosition){
+                        switch (childPosition) {
                             case 0:
                                 startActivity(detailsIntent);
                                 break;
@@ -87,7 +88,7 @@ public class Categories extends AppCompatActivity {
                                 startActivity(detailsIntent);
                                 break;
                         }
-                    break;
+                        break;
                 }
 
 
@@ -199,19 +200,28 @@ public class Categories extends AppCompatActivity {
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                                              @Override
-                                              public boolean onQueryTextSubmit(String query) {
-                                                  Intent searchIntent = new Intent(Categories.this, SearchResults.class);
-                                                  startActivity(searchIntent);
-                                                  return false;
-                                              }
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Intent searchIntent = new Intent(Categories.this, SearchResults.class);
+                startActivity(searchIntent);
+                return false;
+            }
 
-                                              @Override
-                                              public boolean onQueryTextChange(String newText) {
-                                                  return false;
-                                              }
-                                          }
-        );
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        MenuItem home = menu.findItem(R.id.home);
+        home.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent homeIntent = new Intent(Categories.this, Home.class);
+                startActivity(homeIntent);
+                return false;
+            }
+        });
         return true;
     }
 
