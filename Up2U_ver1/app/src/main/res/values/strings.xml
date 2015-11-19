@@ -30,4 +30,5 @@
         <item>20km</item>
         <item>25km</item>
     </string-array>
+    <string name="title_activity_maps">Map</string>
 </resources>
