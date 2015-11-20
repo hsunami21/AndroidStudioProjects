@@ -9,12 +9,31 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 public class BankActivity extends AppCompatActivity {
+
+    //map coordinates
+    static final LatLng NOVASCOTIA = new LatLng(43.75854,-79.23002);
+    private GoogleMap map;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bank);
+
+        map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+        //map.setMapType((GoogleMap.MAP_TYPE_SATELLITE));
+        Marker NovaScotia = map.addMarker(new MarkerOptions().position(NOVASCOTIA).title("Nova Scotia"));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(NOVASCOTIA, 15));
+        map.animateCamera(CameraUpdateFactory.zoomTo(15), 5000, null);
+
     }
 
     @Override

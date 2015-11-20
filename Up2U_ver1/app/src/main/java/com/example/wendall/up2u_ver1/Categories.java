@@ -22,12 +22,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+//map imports
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 public class Categories extends AppCompatActivity {
 
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +70,7 @@ public class Categories extends AppCompatActivity {
                     case 0:
                         switch (childPosition) {
                             case 0:
+
                                 startActivity(bankIntent);
                                 break;
                             case 1:

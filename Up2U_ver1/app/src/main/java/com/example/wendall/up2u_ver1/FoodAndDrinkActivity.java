@@ -7,14 +7,35 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.SearchView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 public class FoodAndDrinkActivity extends AppCompatActivity {
+
+    //map coordinates
+    static final LatLng HAKKALEGEND = new LatLng(43.77641,-79.23497);
+    private GoogleMap map;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_and_drink);
+
+        map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+        //map.setMapType((GoogleMap.MAP_TYPE_SATELLITE));
+        Marker HakkaLegend = map.addMarker(new MarkerOptions().position(HAKKALEGEND).title("Hakka Legend"));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(HAKKALEGEND, 15));
+        map.animateCamera(CameraUpdateFactory.zoomTo(15), 5000, null);
+
     }
 
     @Override

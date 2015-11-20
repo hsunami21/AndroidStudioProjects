@@ -9,12 +9,31 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 public class ParksAndRecActivity extends AppCompatActivity {
+
+    //map coordinates
+    static final LatLng CENTRECCENT = new LatLng(43.77502,-79.23829);
+    private GoogleMap map;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parks_and_rec);
+
+        map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+        //map.setMapType((GoogleMap.MAP_TYPE_SATELLITE));
+        Marker CentRecCent = map.addMarker(new MarkerOptions().position(CENTRECCENT).title("Centennial Recreational Centre"));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(CENTRECCENT, 15));
+        map.animateCamera(CameraUpdateFactory.zoomTo(15), 5000, null);
+
     }
 
     @Override
