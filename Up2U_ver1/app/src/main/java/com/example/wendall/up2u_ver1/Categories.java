@@ -51,19 +51,23 @@ public class Categories extends AppCompatActivity {
 
                 Toast.makeText(Categories.this, "Clicked On Child" + childPosition,
                         Toast.LENGTH_SHORT).show();
+                //first choices of each categories
+                Intent bankIntent = new Intent(Categories.this, BankActivity.class);
                 Intent detailsIntent = new Intent(Categories.this, Details.class);
+                Intent foodAndDrinkIntent = new Intent(Categories.this, FoodAndDrinkActivity.class);
+                Intent parksAndRecIntent = new Intent(Categories.this, ParksAndRecActivity.class);
                 //listAdapter
                 switch (groupPosition) {
                     case 0:
                         switch (childPosition) {
                             case 0:
-                                startActivity(detailsIntent);
+                                startActivity(bankIntent);
                                 break;
                             case 1:
-                                startActivity(detailsIntent);
+                                startActivity(bankIntent);
                                 break;
                             case 2:
-                                startActivity(detailsIntent);
+                                startActivity(bankIntent);
                                 break;
                         }
                         break;
@@ -80,6 +84,20 @@ public class Categories extends AppCompatActivity {
                                 break;
                             case 3:
                                 startActivity(detailsIntent);
+                                break;
+                        }
+                        break;
+                    case 2:
+                        switch (childPosition){
+                            case 0:
+                                startActivity(foodAndDrinkIntent);
+                                break;
+                        }
+                        break;
+                    case 3:
+                        switch (childPosition){
+                            case 0:
+                                startActivity(parksAndRecIntent);
                                 break;
                         }
                         break;
