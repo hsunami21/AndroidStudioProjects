@@ -68,14 +68,23 @@
         <activity
             android:name=".BankActivity"
             android:label="@string/title_activity_bank" >
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".SearchResults" />
         </activity>
         <activity
             android:name=".FoodAndDrinkActivity"
             android:label="@string/title_activity_food_and_drink" >
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".SearchResults" />
         </activity>
         <activity
             android:name=".ParksAndRecActivity"
             android:label="@string/title_activity_parks_and_rec" >
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".SearchResults" />
         </activity>
     </application>
 

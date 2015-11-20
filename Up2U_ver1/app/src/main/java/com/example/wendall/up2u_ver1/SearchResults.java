@@ -7,15 +7,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ExpandableListView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 public class SearchResults extends AppCompatActivity {
+
+    ExpandableListAdapter listAdapter;
+    ExpandableListView expListView;
+    List<String> listDataHeader;
+    HashMap<String, List<String>> listDataChild;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_results);
+
+
 
         handleIntent(getIntent());
 
@@ -32,6 +45,107 @@ public class SearchResults extends AppCompatActivity {
             String query = intent.getStringExtra(SearchManager.QUERY);
             Toast.makeText(getApplicationContext(), query , Toast.LENGTH_SHORT).show();
             //use the query to search your data somehow
+
+            // get the listview
+            expListView = (ExpandableListView) findViewById(R.id.list);
+
+            // preparing list data
+            listDataHeader = new ArrayList<String>();
+            listDataChild = new HashMap<String, List<String>>();
+
+            // Adding child data
+            if (query.equalsIgnoreCase("hakka legend")) {
+                listDataHeader.add("Food and Drink");
+
+                List<String> food = new ArrayList<String>();
+                food.add("Hakka Legend");
+
+                listDataChild.put(listDataHeader.get(0), food); // Header, Child data
+
+                listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
+
+                // setting list adapter
+                expListView.setAdapter(listAdapter);
+
+                expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                    @Override
+                    public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+
+                        Toast.makeText(SearchResults.this, "Clicked On Child " + childPosition,
+                                Toast.LENGTH_SHORT).show();
+                        //first choices of each categories
+                        Intent detailsIntent = new Intent(SearchResults.this, FoodAndDrinkActivity.class);
+
+                        switch (groupPosition) {
+                            case 0:
+                                switch (childPosition) {
+                                    case 0:
+                                        startActivity(detailsIntent);
+                                        break;
+                                }
+                                break;
+                        }
+                        return false;
+                    }
+                });
+            } else if(query.equalsIgnoreCase("food and entertainment")) {
+                listDataHeader.add("Entertainment");
+                listDataHeader.add("Food and Drink");
+
+                List<String> entertainment = new ArrayList<String>();
+                entertainment.add("Cineplex");
+                entertainment.add("Scarborough Music Theatre Inc.");
+                entertainment.add("Scarborough Town Centre");
+
+                List<String> food = new ArrayList<String>();
+                food.add("Hakka Legend");
+                food.add("McDonald's");
+                food.add("Subway");
+                food.add("Super Buffer");
+                food.add("The Keg");
+                food.add("Tim Hortons");
+                food.add("Popeyes");
+
+                listDataChild.put(listDataHeader.get(0), entertainment);
+                listDataChild.put(listDataHeader.get(1), food);
+
+                listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
+
+                // setting list adapter
+                expListView.setAdapter(listAdapter);
+
+                expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                    @Override
+                    public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+
+                        Toast.makeText(SearchResults.this, "Clicked On Child " + childPosition,
+                                Toast.LENGTH_SHORT).show();
+                        //first choices of each categories
+                        Intent detailsIntent = new Intent(SearchResults.this, Details.class);
+                        Intent foodAndDrinkIntent = new Intent(SearchResults.this, FoodAndDrinkActivity.class);
+
+
+                        switch (groupPosition) {
+                            case 0:
+                                switch (childPosition) {
+                                    case 0:
+                                        startActivity(detailsIntent);
+                                        break;
+                                }
+                                break;
+                            case 1:
+                                switch (childPosition) {
+                                    case 0:
+                                        startActivity(foodAndDrinkIntent);
+                                        break;
+                                }
+                                break;
+                        }
+                        return false;
+                    }
+                });
+            }
+
         }
     }
 

@@ -49,7 +49,7 @@ public class Categories extends AppCompatActivity {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
-                Toast.makeText(Categories.this, "Clicked On Child" + childPosition,
+                Toast.makeText(Categories.this, "Clicked On Child " + childPosition,
                         Toast.LENGTH_SHORT).show();
                 //first choices of each categories
                 Intent bankIntent = new Intent(Categories.this, BankActivity.class);
