@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 public class Home extends AppCompatActivity {
 
-    ImageView imgCategory, imgPreference;
-    TextView txtCategory, txtPreference;
+    ImageView imgCategory, imgPreference, imgFavourites;
+    TextView txtCategory, txtPreference, txtFavourites;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +61,28 @@ public class Home extends AppCompatActivity {
             // Start new list activity
             public void onClick(View v) {
                 Intent categoryIntent = new Intent(Home.this, Preferences.class);
+                startActivity(categoryIntent);
+            }
+        });
+
+        // get the button view
+        imgFavourites = (ImageView) findViewById(R.id.ivFavourites);
+        // set a onclick listener for when the button gets clicked
+        imgFavourites.setOnClickListener(new View.OnClickListener() {
+            // Start new list activity
+            public void onClick(View v) {
+                Intent categoryIntent = new Intent(Home.this, Favourites.class);
+                startActivity(categoryIntent);
+            }
+        });
+
+        // get the button view
+        txtFavourites = (TextView) findViewById(R.id.tvFavourites);
+        // set a onclick listener for when the button gets clicked
+        txtFavourites.setOnClickListener(new View.OnClickListener() {
+            // Start new list activity
+            public void onClick(View v) {
+                Intent categoryIntent = new Intent(Home.this, Favourites.class);
                 startActivity(categoryIntent);
             }
         });

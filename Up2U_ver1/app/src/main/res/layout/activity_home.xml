@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/ivCategory"
         android:src="@drawable/category"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="250dp"
         android:layout_marginLeft="25dp"/>
 
     <TextView
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/ivPreference"
         android:src="@drawable/preference"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="250dp"
         android:layout_marginLeft="200dp"/>
 
     <TextView
@@ -45,11 +45,26 @@
         android:layout_height="wrap_content"
         android:id="@+id/logoImage"
         android:src="@drawable/logo"
-        android:layout_alignParentTop="true"
-        android:layout_above="@+id/ivCategory"
-        android:layout_alignLeft="@+id/ivCategory"
-        android:layout_alignStart="@+id/ivCategory"
-        android:layout_alignRight="@+id/tvPreference"
-        android:layout_alignEnd="@+id/tvPreference" />
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="25dp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ivFavourites"
+        android:src="@drawable/favourites"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="195dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Favourites"
+        android:id="@+id/tvFavourites"
+        android:layout_below="@id/ivFavourites"
+        android:layout_marginLeft="195dp"/>
+
+
 
 </RelativeLayout>

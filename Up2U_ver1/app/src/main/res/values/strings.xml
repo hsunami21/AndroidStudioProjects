@@ -36,4 +36,5 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_food_and_drink">FoodAndDrinkActivity</string>
     <string name="title_activity_parks_and_rec">ParksAndRecActivity</string>
+    <string name="title_activity_favourites">Favourites</string>
 </resources>
