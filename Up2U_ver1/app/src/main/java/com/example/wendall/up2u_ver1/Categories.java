@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -134,36 +135,96 @@ public class Categories extends AppCompatActivity {
         listDataHeader.add("Parks and Recreation");
 
         // Adding child data
-        List<String> banks = new ArrayList<String>();
-        banks.add("Bank of Nova Scotia");
-        banks.add("TD Canada Trust");
-        banks.add("Scotiabank");
+        // ADD FOOD AND DRINKS
+        List<RestaurantInfo> food = new ArrayList<RestaurantInfo>();
+        for (int i = 0; i < 100; i+=4) {
+            food.add(LocalData.getInstance().getInfoatID(i));
+        }
 
-        List<String> entertainment = new ArrayList<String>();
-        entertainment.add("Cineplex");
-        entertainment.add("The Keg");
-        entertainment.add("Scarborough Music Theatre Inc.");
-        entertainment.add("Scarborough Town Centre");
+        Log.d("Entertainment List", food.toString());
 
-        List<String> food = new ArrayList<String>();
-        food.add("Hakka Legend");
-        food.add("McDonald's");
-        food.add("Subway");
-        food.add("Super Buffer");
-        food.add("The Keg");
-        food.add("Tim Hortons");
-        food.add("Popeyes");
+        List<String> foodNames = new ArrayList<>();
+        for (int i = 0; i < food.size(); i++) {
+            foodNames.add(food.get(i).ActivityName);
+        }
 
-        List<String> recreation = new ArrayList<String>();
-        recreation.add("Centennial Recreation Centre - Scarborough");
-        recreation.add("Woburn Park");
-        recreation.add("Wynn Fitness Clubs");
-        recreation.add("YMCA of Greater Toronto");
+        Log.d("Entertainment Names", foodNames.toString());
 
-        listDataChild.put(listDataHeader.get(0), banks); // Header, Child data
-        listDataChild.put(listDataHeader.get(1), entertainment);
-        listDataChild.put(listDataHeader.get(2), food);
-        listDataChild.put(listDataHeader.get(3), recreation);
+        // ADD BANKS
+        List<RestaurantInfo> banks = new ArrayList<RestaurantInfo>();
+        for (int i = 1; i < 100; i+=4) {
+            banks.add(LocalData.getInstance().getInfoatID(i));
+        }
+
+        Log.d("Bank List", banks.toString());
+
+        List<String> bankNames = new ArrayList<>();
+        for (int i = 0; i < banks.size(); i++) {
+            bankNames.add(banks.get(i).ActivityName);
+        }
+
+        Log.d("Bank Names", bankNames.toString());
+
+        // ADD PARKS AND RECREATION
+        List<RestaurantInfo> recreation = new ArrayList<RestaurantInfo>();
+        for (int i = 2; i < 100; i+=4) {
+            recreation.add(LocalData.getInstance().getInfoatID(i));
+        }
+
+        Log.d("Entertainment List", recreation.toString());
+
+        List<String> recreationNames = new ArrayList<>();
+        for (int i = 0; i < recreation.size(); i++) {
+            recreationNames.add(recreation.get(i).ActivityName);
+        }
+
+        Log.d("Entertainment Names", recreationNames.toString());
+
+        // ADD ENTERTAINMENT
+        List<RestaurantInfo> entertainment = new ArrayList<RestaurantInfo>();
+        for (int i = 3; i < 100; i+=4) {
+            entertainment.add(LocalData.getInstance().getInfoatID(i));
+        }
+
+        Log.d("Entertainment List", entertainment.toString());
+
+        List<String> entertainmentNames = new ArrayList<>();
+        for (int i = 0; i < entertainment.size(); i++) {
+            entertainmentNames.add(entertainment.get(i).ActivityName);
+        }
+
+        Log.d("Entertainment Names", entertainmentNames.toString());
+
+//        List<String> banks = new ArrayList<String>();
+//        banks.add("Bank of Nova Scotia");
+//        banks.add("TD Canada Trust");
+//        banks.add("Scotiabank");
+//
+//        List<String> entertainment = new ArrayList<String>();
+//        entertainment.add("Cineplex");
+//        entertainment.add("The Keg");
+//        entertainment.add("Scarborough Music Theatre Inc.");
+//        entertainment.add("Scarborough Town Centre");
+//
+//        List<String> food = new ArrayList<String>();
+//        food.add("Hakka Legend");
+//        food.add("McDonald's");
+//        food.add("Subway");
+//        food.add("Super Buffer");
+//        food.add("The Keg");
+//        food.add("Tim Hortons");
+//        food.add("Popeyes");
+//
+//        List<String> recreation = new ArrayList<String>();
+//        recreation.add("Centennial Recreation Centre - Scarborough");
+//        recreation.add("Woburn Park");
+//        recreation.add("Wynn Fitness Clubs");
+//        recreation.add("YMCA of Greater Toronto");
+
+        listDataChild.put(listDataHeader.get(0), bankNames); // Header, Child data
+        listDataChild.put(listDataHeader.get(1), entertainmentNames);
+        listDataChild.put(listDataHeader.get(2), foodNames);
+        listDataChild.put(listDataHeader.get(3), recreationNames);
     }
 
     @Override
