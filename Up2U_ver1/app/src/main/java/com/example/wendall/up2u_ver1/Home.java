@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,6 +20,8 @@ public class Home extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println(LocalData.getInstance().getInfo().size());
+        Log.e("BUILDINGDATA", String.valueOf(LocalData.getInstance().getInfo().size()));
         setContentView(R.layout.activity_home);
 
         // get the button view

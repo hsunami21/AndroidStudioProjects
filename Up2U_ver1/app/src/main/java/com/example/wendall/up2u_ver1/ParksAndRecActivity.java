@@ -33,7 +33,6 @@ public class ParksAndRecActivity extends AppCompatActivity {
         Marker CentRecCent = map.addMarker(new MarkerOptions().position(CENTRECCENT).title("Centennial Recreational Centre"));
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(CENTRECCENT, 15));
         map.animateCamera(CameraUpdateFactory.zoomTo(15), 5000, null);
-
     }
 
     @Override
