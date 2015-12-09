@@ -3,6 +3,8 @@ package com.example.wendall.up2u_ver1;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +22,16 @@ public class Home extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(this);
+        if (p.getString("city",null) == null)
+        {
+            SharedPreferences.Editor pe = PreferenceManager.getDefaultSharedPreferences(this).edit();
+            pe.putString("city", "Toronto");
+            pe.putBoolean("switch", false);
+            pe.apply();
+        }
+
         System.out.println(LocalData.getInstance().getInfo().size());
         Log.e("BUILDINGDATA", String.valueOf(LocalData.getInstance().getInfo().size()));
         setContentView(R.layout.activity_home);

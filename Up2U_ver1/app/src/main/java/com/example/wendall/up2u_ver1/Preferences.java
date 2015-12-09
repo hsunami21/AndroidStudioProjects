@@ -1,12 +1,16 @@
 package com.example.wendall.up2u_ver1;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 public class Preferences extends AppCompatActivity {
 
@@ -24,9 +28,23 @@ public class Preferences extends AppCompatActivity {
         cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         citySpinner.setAdapter(cityAdapter);
+        citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Spinner spin = (Spinner) findViewById(R.id.spinCity);
+                SharedPreferences.Editor e = PreferenceManager.getDefaultSharedPreferences(Preferences.this).edit();
+                e.putString("city", spin.getSelectedItem().toString());
+                e.apply();
+            }
 
-        //Spinner Distance
-        Spinner distSpinner = (Spinner) findViewById(R.id.spinDistance);
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+                //Spinner Distance
+                Spinner distSpinner = (Spinner) findViewById(R.id.spinDistance);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> distAdapter = ArrayAdapter.createFromResource(this,
                 R.array.distance, android.R.layout.simple_spinner_item);

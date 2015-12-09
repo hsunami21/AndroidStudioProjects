@@ -67,6 +67,41 @@ public class LocalData {
         return null;
     }
 
+    public List<String> Search(String name, String city)
+    {
+        List<String> l = new ArrayList<String>();
+        for (int i = 0; i < 100; i++)
+        {
+            if (info.get(i).ActivityName.toLowerCase().contains(name) && info.get(i).ActivityTown.toLowerCase().contains(city.toLowerCase()))
+                l.add(info.get(i).ActivityName);
+        }
+
+        return l;
+    }
+
+    public List<String> Search(String name)
+    {
+        List<String> l = new ArrayList<String>();
+        for (int i= 0; i < 100; i++)
+        {
+            if (info.get(i).ActivityName.toLowerCase().contains(name))
+                l.add(info.get(i).ActivityName);
+        }
+
+        return l;
+    }
+
+    public int GetIDFromName(String name)
+    {
+        for (int i= 0; i < info.size(); i ++)
+        {
+            if (info.get(i).ActivityName.equalsIgnoreCase(name))
+                return info.get(i).ID;
+        }
+
+        return -1;
+    }
+
     public List<RestaurantInfo> getInfo()
     {
         return info;

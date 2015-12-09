@@ -4,7 +4,9 @@ import android.app.ExpandableListActivity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -12,9 +14,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +27,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import com.example.wendall.up2u_ver1.RestaurantInfo;
 
 //map imports
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -37,18 +43,45 @@ public class Categories extends AppCompatActivity {
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
-
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories);
 
-        // get the listview
-        expListView = (ExpandableListView) findViewById(R.id.list);
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+        prefEdit = PreferenceManager.getDefaultSharedPreferences(this).edit();
 
+        Switch s = (Switch)findViewById(R.id.catSwitch);
+        s.setChecked(pref.getBoolean("switch", false));
+        s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b == true) {
+                    Log.d("SWITCH:", String.valueOf(b));
+                    prefEdit.putBoolean("switch", true);
+                } else if (b == false) {
+                    Log.d("SWITCH:", String.valueOf(b));
+                    prefEdit.putBoolean("switch", false);
+                }
+                prefEdit.apply();
+
+                setList(pref.getString("city", null));
+            }
+        });
+
+        // get the listview
+        Log.d("SHARED", "City: " + pref.getString("city", null));
+        setList(pref.getString("city", null));
+    }
+
+    private void setList(String city)
+    {
+        expListView = (ExpandableListView) findViewById(R.id.list);
         // preparing list data
-        prepareListData();
+        prepareListData(city);
 
         listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
 
@@ -59,72 +92,22 @@ public class Categories extends AppCompatActivity {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
-                Toast.makeText(Categories.this, "Clicked On Child " + childPosition,
-                        Toast.LENGTH_SHORT).show();
-                //first choices of each categories
-                Intent bankIntent = new Intent(Categories.this, BankActivity.class);
-                Intent detailsIntent = new Intent(Categories.this, Details.class);
-                Intent foodAndDrinkIntent = new Intent(Categories.this, FoodAndDrinkActivity.class);
-                Intent parksAndRecIntent = new Intent(Categories.this, ParksAndRecActivity.class);
-                //listAdapter
-                switch (groupPosition) {
-                    case 0:
-                        switch (childPosition) {
-                            case 0:
+                listAdapter.getChild(groupPosition, childPosition).toString();
+                //Toast.makeText(Categories.this, "Clicked On Child " + LocalData.getInstance().GetIDFromName(listAdapter.getChild(groupPosition, childPosition).toString()),
+                //        Toast.LENGTH_SHORT).show();
 
-                                startActivity(bankIntent);
-                                break;
-                            case 1:
-                                startActivity(bankIntent);
-                                break;
-                            case 2:
-                                startActivity(bankIntent);
-                                break;
-                        }
-                        break;
-                    case 1:
-                        switch (childPosition) {
-                            case 0:
-                                startActivity(detailsIntent);
-                                break;
-                            case 1:
-                                startActivity(detailsIntent);
-                                break;
-                            case 2:
-                                startActivity(detailsIntent);
-                                break;
-                            case 3:
-                                startActivity(detailsIntent);
-                                break;
-                        }
-                        break;
-                    case 2:
-                        switch (childPosition){
-                            case 0:
-                                startActivity(foodAndDrinkIntent);
-                                break;
-                        }
-                        break;
-                    case 3:
-                        switch (childPosition){
-                            case 0:
-                                startActivity(parksAndRecIntent);
-                                break;
-                        }
-                        break;
-                }
-
-
+                Intent detailsIntent = new Intent(Categories.this, DetailPage.class);
+                detailsIntent.putExtra("id", LocalData.getInstance().GetIDFromName(listAdapter.getChild(groupPosition, childPosition).toString()));
+                startActivity(detailsIntent);
                 return false;
             }
         });
-
     }
 
     /*
      * Preparing the list data
      */
-    private void prepareListData() {
+    private void prepareListData(String city) {
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<String>>();
 
@@ -138,62 +121,88 @@ public class Categories extends AppCompatActivity {
         // ADD FOOD AND DRINKS
         List<RestaurantInfo> food = new ArrayList<RestaurantInfo>();
         for (int i = 0; i < 100; i+=4) {
-            food.add(LocalData.getInstance().getInfoatID(i));
+            if (city == null || pref.getBoolean("switch", false) == false )
+                food.add(LocalData.getInstance().getInfoatID(i));
+            else if (city != null)
+            {
+                Log.d("DEBUG", "Testing: " + LocalData.getInstance().getInfoatID(i).ActivityTown);
+                if (LocalData.getInstance().getInfoatID(i).ActivityTown.toLowerCase().contains(city.toLowerCase()))
+                    food.add(LocalData.getInstance().getInfoatID(i));
+            }
         }
 
-        Log.d("Entertainment List", food.toString());
+        //Log.d("Entertainment List", food.toString());
 
         List<String> foodNames = new ArrayList<>();
         for (int i = 0; i < food.size(); i++) {
-            foodNames.add(food.get(i).ActivityName);
+                foodNames.add(food.get(i).ActivityName);
         }
+        Log.d("COUNT: ", String.valueOf(foodNames.size()));
 
-        Log.d("Entertainment Names", foodNames.toString());
+        //Log.d("Entertainment Names", foodNames.toString());
 
         // ADD BANKS
         List<RestaurantInfo> banks = new ArrayList<RestaurantInfo>();
         for (int i = 1; i < 100; i+=4) {
-            banks.add(LocalData.getInstance().getInfoatID(i));
+            if (city == null || pref.getBoolean("switch", false) == false )
+                banks.add(LocalData.getInstance().getInfoatID(i));
+            else if (city != null)
+            {
+                if (LocalData.getInstance().getInfoatID(i).ActivityTown.toLowerCase().contains(city.toLowerCase()))
+                    banks.add(LocalData.getInstance().getInfoatID(i));
+            }
         }
 
-        Log.d("Bank List", banks.toString());
+        //Log.d("Bank List", banks.toString());
 
         List<String> bankNames = new ArrayList<>();
         for (int i = 0; i < banks.size(); i++) {
             bankNames.add(banks.get(i).ActivityName);
         }
 
-        Log.d("Bank Names", bankNames.toString());
+       // Log.d("Bank Names", bankNames.toString());
 
         // ADD PARKS AND RECREATION
         List<RestaurantInfo> recreation = new ArrayList<RestaurantInfo>();
         for (int i = 2; i < 100; i+=4) {
-            recreation.add(LocalData.getInstance().getInfoatID(i));
+            if (city == null || pref.getBoolean("switch", false) == false )
+                recreation.add(LocalData.getInstance().getInfoatID(i));
+            else if (city != null)
+            {
+                if (LocalData.getInstance().getInfoatID(i).ActivityTown.toLowerCase().contains(city.toLowerCase()))
+                    recreation.add(LocalData.getInstance().getInfoatID(i));
+            }
         }
 
-        Log.d("Entertainment List", recreation.toString());
+       // Log.d("Entertainment List", recreation.toString());
 
         List<String> recreationNames = new ArrayList<>();
         for (int i = 0; i < recreation.size(); i++) {
             recreationNames.add(recreation.get(i).ActivityName);
         }
 
-        Log.d("Entertainment Names", recreationNames.toString());
+        //Log.d("Entertainment Names", recreationNames.toString());
 
         // ADD ENTERTAINMENT
         List<RestaurantInfo> entertainment = new ArrayList<RestaurantInfo>();
         for (int i = 3; i < 100; i+=4) {
-            entertainment.add(LocalData.getInstance().getInfoatID(i));
+            if (city == null || pref.getBoolean("switch", false) == false )
+                entertainment.add(LocalData.getInstance().getInfoatID(i));
+            else if (city != null)
+            {
+                if (LocalData.getInstance().getInfoatID(i).ActivityTown.toLowerCase().contains(city.toLowerCase()))
+                    entertainment.add(LocalData.getInstance().getInfoatID(i));
+            }
         }
 
-        Log.d("Entertainment List", entertainment.toString());
+        //Log.d("Entertainment List", entertainment.toString());
 
         List<String> entertainmentNames = new ArrayList<>();
         for (int i = 0; i < entertainment.size(); i++) {
             entertainmentNames.add(entertainment.get(i).ActivityName);
         }
 
-        Log.d("Entertainment Names", entertainmentNames.toString());
+        //Log.d("Entertainment Names", entertainmentNames.toString());
 
 //        List<String> banks = new ArrayList<String>();
 //        banks.add("Bank of Nova Scotia");

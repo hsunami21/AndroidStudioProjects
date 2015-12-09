@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -16,23 +18,33 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class ParksAndRecActivity extends AppCompatActivity {
+public class DetailPage extends AppCompatActivity {
 
     //map coordinates
-    static final LatLng CENTRECCENT = new LatLng(43.77502,-79.23829);
+    static final LatLng CINEPLEX = new LatLng(43.77605,-79.25778);
     private GoogleMap map;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_parks_and_rec);
+        setContentView(R.layout.activity_details);
+
+        TextView tv = (TextView)findViewById(R.id.textView2);
+        Intent i = getIntent();
+        String name = LocalData.getInstance().getInfoatID(i.getIntExtra("id", 0)).ActivityName;
+        tv.setText(LocalData.getInstance().getInfoatID(i.getIntExtra("id", 0)).ActivityName);
+        TextView tv2 = (TextView)findViewById(R.id.textView4);
+        tv2.setText(LocalData.getInstance().getInfoatID(i.getIntExtra("id", 0)).ActivityAddress);
+
+        TextView tv3 = (TextView)findViewById(R.id.textView7);
+        tv3.setText("$" + String.valueOf(LocalData.getInstance().getInfoatID(i.getIntExtra("id", 0)).ActivityPrice));
 
         map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
         //map.setMapType((GoogleMap.MAP_TYPE_SATELLITE));
-        Marker CentRecCent = map.addMarker(new MarkerOptions().position(CENTRECCENT).title("Centennial Recreational Centre"));
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(CENTRECCENT, 15));
+        Marker Cineplex = map.addMarker(new MarkerOptions().position(CINEPLEX).title("Cineplex"));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(CINEPLEX, 15));
         map.animateCamera(CameraUpdateFactory.zoomTo(15), 5000, null);
+
     }
 
     @Override
@@ -47,7 +59,7 @@ public class ParksAndRecActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Intent searchIntent = new Intent(ParksAndRecActivity.this, SearchResults.class);
+                Intent searchIntent = new Intent(DetailPage.this, SearchResults.class);
                 startActivity(searchIntent);
                 return false;
             }
@@ -62,27 +74,12 @@ public class ParksAndRecActivity extends AppCompatActivity {
         home.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                Intent homeIntent = new Intent(ParksAndRecActivity.this, Home.class);
+                Intent homeIntent = new Intent(DetailPage.this, Home.class);
                 startActivity(homeIntent);
                 return false;
             }
         });
 
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

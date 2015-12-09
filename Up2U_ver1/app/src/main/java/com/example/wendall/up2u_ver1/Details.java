@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,6 +28,18 @@ public class Details extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+
+        TextView tv = (TextView)findViewById(R.id.textView2);
+        Intent i = getIntent();
+        String name = LocalData.getInstance().getInfoatID(i.getIntExtra("id", 0)).ActivityName;
+        tv.setText(LocalData.getInstance().getInfoatID(i.getIntExtra("id", 0)).ActivityName);
+        TextView tv2 = (TextView)findViewById(R.id.textView4);
+        tv2.setText(LocalData.getInstance().getInfoatID(i.getIntExtra("id",0)).ActivityAddress);
+
+        TextView tv3 = (TextView)findViewById(R.id.textView7);
+        tv3.setText("$" + String.valueOf(LocalData.getInstance().getInfoatID(i.getIntExtra("id",0)).ActivityPrice));
+        Toast.makeText(Details.this, name,
+                Toast.LENGTH_SHORT).show();
 
         map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
         //map.setMapType((GoogleMap.MAP_TYPE_SATELLITE));
