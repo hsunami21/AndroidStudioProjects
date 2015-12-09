@@ -2,9 +2,11 @@ package com.example.wendall.up2u_ver1;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,12 +24,24 @@ public class Preferences extends AppCompatActivity {
         //Spinner City
         Spinner citySpinner = (Spinner) findViewById(R.id.spinCity);
         // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> cityAdapter = ArrayAdapter.createFromResource(this,
-                R.array.cities, android.R.layout.simple_spinner_item);
+
+        String[] array = getResources().getStringArray(R.array.cities);
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(Preferences.this);
+        for (int i = 0; i < array.length; i++)
+        {
+            if (array[i].toLowerCase().equals(sp.getString("city", "Toronto").toLowerCase()))
+            {
+                array[0] = sp.getString("city", "NULL");
+            }
+        }
+
+        ArrayAdapter<String> cityAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, array);
         // Specify the layout to use when the list of choices appears
         cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         citySpinner.setAdapter(cityAdapter);
+
+
         citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {

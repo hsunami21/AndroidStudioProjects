@@ -5,6 +5,7 @@
     <string name="search_hint">"Search for activity"</string>
 
     <string-array name="cities">
+        <item> </item>
         <item>Agincourt</item>
         <item>Markham</item>
         <item>Mississauga</item>
