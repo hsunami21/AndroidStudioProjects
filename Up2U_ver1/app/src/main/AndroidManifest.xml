@@ -46,11 +46,6 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name=".Details" >
-            <meta-data
-                android:name="android.app.default_searchable"
-                android:value=".SearchResults" />
-        </activity>
         <activity android:name=".Preferences" >
         </activity>
 
@@ -74,7 +69,10 @@
         </activity>
         <activity
             android:name=".Favourites"
-            android:label="@string/title_activity_favourites" >
+            android:label="@string/title_favourites" >
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".SearchResults" />
         </activity>
     </application>
 

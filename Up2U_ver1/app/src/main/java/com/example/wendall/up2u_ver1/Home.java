@@ -115,6 +115,7 @@ public class Home extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                Log.d("SCREENCALL", "GOING TO SEARCH RESULT");
                 Intent searchIntent = new Intent(Home.this, SearchResults.class);
                 startActivity(searchIntent);
                 return false;

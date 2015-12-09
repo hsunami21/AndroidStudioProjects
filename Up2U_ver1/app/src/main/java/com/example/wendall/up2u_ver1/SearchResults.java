@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -60,6 +61,19 @@ public class SearchResults extends AppCompatActivity {
         });
 
         handleIntent(getIntent());
+
+
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.d(null, "In on Key Down");
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent homeIntent = new Intent(SearchResults.this, Home.class);
+            startActivity(homeIntent);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
@@ -101,6 +115,7 @@ public class SearchResults extends AppCompatActivity {
                 public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                     Intent detailsIntent = new Intent(SearchResults.this, DetailPage.class);
                     detailsIntent.putExtra("id", LocalData.getInstance().GetIDFromName(listAdapter.getChild(groupPosition, childPosition).toString()));
+                    detailsIntent.putExtra("btnName", "Add to Favourites");
                     startActivity(detailsIntent);
                     return false;
                 }
@@ -111,30 +126,15 @@ public class SearchResults extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_categories, menu);
+        getMenuInflater().inflate(R.menu.menu_search, menu);
 
         // Associate searchable.xml configuration with the SearchView
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Intent searchIntent = new Intent(SearchResults.this, SearchResults.class);
-                startActivity(searchIntent);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
 
         MenuItem home = menu.findItem(R.id.home);
         home.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
+                Log.d("SCREENTEST: ", "Going Home");
                 Intent homeIntent = new Intent(SearchResults.this, Home.class);
                 startActivity(homeIntent);
                 return false;

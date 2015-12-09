@@ -3,10 +3,15 @@ package com.example.wendall.up2u_ver1;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,20 +29,64 @@ public class DetailPage extends AppCompatActivity {
     static final LatLng CINEPLEX = new LatLng(43.77605,-79.25778);
     private GoogleMap map;
 
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEdit;
+    RestaurantInfo id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
-        TextView tv = (TextView)findViewById(R.id.textView2);
+        pref = PreferenceManager.getDefaultSharedPreferences(DetailPage.this);
+        prefEdit = PreferenceManager.getDefaultSharedPreferences(DetailPage.this).edit();
         Intent i = getIntent();
-        String name = LocalData.getInstance().getInfoatID(i.getIntExtra("id", 0)).ActivityName;
-        tv.setText(LocalData.getInstance().getInfoatID(i.getIntExtra("id", 0)).ActivityName);
+        Log.d("IDCHECK: ", String.valueOf(i.getIntExtra("id", -1)));
+        boolean exists = pref.getBoolean("fav" + String.valueOf(LocalData.getInstance().getInfoatID(i.getIntExtra("id", -1))), false);
+        id = LocalData.getInstance().getInfoatID(i.getIntExtra("id", -1));
+
+        TextView tv = (TextView)findViewById(R.id.textView2);
+
+        final String name = id.ActivityName;
+        tv.setText(id.ActivityName);
         TextView tv2 = (TextView)findViewById(R.id.textView4);
-        tv2.setText(LocalData.getInstance().getInfoatID(i.getIntExtra("id", 0)).ActivityAddress);
+        tv2.setText(id.ActivityAddress);
 
         TextView tv3 = (TextView)findViewById(R.id.textView7);
-        tv3.setText("$" + String.valueOf(LocalData.getInstance().getInfoatID(i.getIntExtra("id", 0)).ActivityPrice));
+        tv3.setText("$" + String.valueOf(id.ActivityPrice));
+
+        Button btnFav = (Button)findViewById(R.id.favBtn);
+        btnFav.setText(i.getStringExtra("btnName"));
+
+        btnFav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("FAVOURITE", "Click");
+                if (!pref.getBoolean("fav"+id.ID, false))
+                {
+                    prefEdit.putBoolean("fav"+id.ID, true);
+                    prefEdit.apply();
+
+                    Button btnFav = (Button)findViewById(R.id.favBtn);
+                    if (pref.getBoolean("fav"+id.ID, false))
+                        btnFav.setText("Remove from Favourites");
+                    else
+                        btnFav.setText("Add to Favourites");
+                }
+                else
+                {
+                    prefEdit.putBoolean("fav"+id.ID, false);
+                    prefEdit.apply();
+
+                    Button btnFav = (Button)findViewById(R.id.favBtn);
+                    if (pref.getBoolean("fav"+id.ID, false))
+                        btnFav.setText("Remove from Favourites");
+                    else
+                        btnFav.setText("Add to Favourites");
+                }
+
+            }
+        });
 
         map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
         //map.setMapType((GoogleMap.MAP_TYPE_SATELLITE));

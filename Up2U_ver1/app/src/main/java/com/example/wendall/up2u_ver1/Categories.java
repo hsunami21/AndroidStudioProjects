@@ -98,6 +98,7 @@ public class Categories extends AppCompatActivity {
 
                 Intent detailsIntent = new Intent(Categories.this, DetailPage.class);
                 detailsIntent.putExtra("id", LocalData.getInstance().GetIDFromName(listAdapter.getChild(groupPosition, childPosition).toString()));
+                detailsIntent.putExtra("btnName", "Add to Favourites");
                 startActivity(detailsIntent);
                 return false;
             }
