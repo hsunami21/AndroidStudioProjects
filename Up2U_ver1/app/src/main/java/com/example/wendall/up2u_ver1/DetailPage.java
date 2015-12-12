@@ -131,4 +131,29 @@ public class DetailPage extends AppCompatActivity {
 
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_home:
+                Intent homeIntent = new Intent(DetailPage.this, Home.class);
+                startActivity(homeIntent);
+                return true;
+            case R.id.action_favourites:
+                Intent favouritesIntent = new Intent(DetailPage.this, Favourites.class);
+                startActivity(favouritesIntent);
+                return true;
+            case R.id.action_categories:
+                Intent categoriesIntent = new Intent(DetailPage.this, Categories.class);
+                startActivity(categoriesIntent);
+                return true;
+            case R.id.action_preferences:
+                Intent preferenceIntent = new Intent(DetailPage.this, Preferences.class);
+                startActivity(preferenceIntent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }

@@ -144,5 +144,30 @@ public class SearchResults extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_home:
+                Intent homeIntent = new Intent(SearchResults.this, Home.class);
+                startActivity(homeIntent);
+                return true;
+            case R.id.action_favourites:
+                Intent favouritesIntent = new Intent(SearchResults.this, Favourites.class);
+                startActivity(favouritesIntent);
+                return true;
+            case R.id.action_categories:
+                Intent categoriesIntent = new Intent(SearchResults.this, Categories.class);
+                startActivity(categoriesIntent);
+                return true;
+            case R.id.action_preferences:
+                Intent preferenceIntent = new Intent(SearchResults.this, Preferences.class);
+                startActivity(preferenceIntent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
 }

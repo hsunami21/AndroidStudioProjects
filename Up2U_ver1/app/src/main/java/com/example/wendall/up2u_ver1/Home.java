@@ -9,10 +9,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Home extends AppCompatActivity {
 
@@ -64,8 +66,8 @@ public class Home extends AppCompatActivity {
         imgPreference.setOnClickListener(new View.OnClickListener() {
             // Start new list activity
             public void onClick(View v) {
-                Intent categoryIntent = new Intent(Home.this, Preferences.class);
-                startActivity(categoryIntent);
+                Intent preferenceIntent = new Intent(Home.this, Preferences.class);
+                startActivity(preferenceIntent);
             }
         });
 
@@ -75,8 +77,8 @@ public class Home extends AppCompatActivity {
         txtPreference.setOnClickListener(new View.OnClickListener() {
             // Start new list activity
             public void onClick(View v) {
-                Intent categoryIntent = new Intent(Home.this, Preferences.class);
-                startActivity(categoryIntent);
+                Intent preferenceIntent = new Intent(Home.this, Preferences.class);
+                startActivity(preferenceIntent);
             }
         });
 
@@ -86,8 +88,8 @@ public class Home extends AppCompatActivity {
         imgFavourites.setOnClickListener(new View.OnClickListener() {
             // Start new list activity
             public void onClick(View v) {
-                Intent categoryIntent = new Intent(Home.this, Favourites.class);
-                startActivity(categoryIntent);
+                Intent favouritesIntent = new Intent(Home.this, Favourites.class);
+                startActivity(favouritesIntent);
             }
         });
 
@@ -97,8 +99,8 @@ public class Home extends AppCompatActivity {
         txtFavourites.setOnClickListener(new View.OnClickListener() {
             // Start new list activity
             public void onClick(View v) {
-                Intent categoryIntent = new Intent(Home.this, Favourites.class);
-                startActivity(categoryIntent);
+                Intent favouritesIntent = new Intent(Home.this, Favourites.class);
+                startActivity(favouritesIntent);
             }
         });
     }
@@ -129,5 +131,29 @@ public class Home extends AppCompatActivity {
 
 
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_home:
+                // write your code here
+                return true;
+            case R.id.action_favourites:
+                Intent favouritesIntent = new Intent(Home.this, Favourites.class);
+                startActivity(favouritesIntent);
+                return true;
+            case R.id.action_categories:
+                Intent categoryIntent = new Intent(Home.this, Categories.class);
+                startActivity(categoryIntent);
+                return true;
+            case R.id.action_preferences:
+                Intent preferenceIntent = new Intent(Home.this, Preferences.class);
+                startActivity(preferenceIntent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

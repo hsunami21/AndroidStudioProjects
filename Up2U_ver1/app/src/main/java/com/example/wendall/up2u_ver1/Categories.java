@@ -272,4 +272,27 @@ public class Categories extends AppCompatActivity {
 
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_home:
+                Intent homeIntent = new Intent(Categories.this, Home.class);
+                startActivity(homeIntent);
+                return true;
+            case R.id.action_favourites:
+                Intent favouritesIntent = new Intent(Categories.this, Favourites.class);
+                startActivity(favouritesIntent);
+                return true;
+            case R.id.action_categories:
+                return true;
+            case R.id.action_preferences:
+                Intent preferenceIntent = new Intent(Categories.this, Preferences.class);
+                startActivity(preferenceIntent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }
