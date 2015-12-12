@@ -4,8 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.wendall.up2u_ver1.Home">
 
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
+    <item android:id="@+id/action_home" android:title="Home"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_favourites" android:title="Favourites"
+        android:orderInCategory="200" app:showAsAction="never" />
+    <item android:id="@+id/action_categories" android:title="Categories"
+        android:orderInCategory="300" app:showAsAction="never" />
+    <item android:id="@+id/action_preferences" android:title="Preferences"
+        android:orderInCategory="400" app:showAsAction="never" />
 
     <item
         android:id="@+id/home"
